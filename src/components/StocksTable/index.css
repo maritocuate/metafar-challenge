@@ -1,0 +1,5 @@
+thead th {
+    padding: 5px 20px;
+    background-color: black;
+    text-transform: capitalize;
+}
