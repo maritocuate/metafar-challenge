@@ -1,11 +1,17 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+
+import Home from './pages/Home'
+import Details from './pages/Details'
 import './App.css'
 
 function App() {
-
   return (
-    <>
-      <h1>Metafar Challenge</h1>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/stock/:symbol" element={<Details />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
