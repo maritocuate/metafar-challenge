@@ -5,10 +5,11 @@ import { Apiresults } from "../../types"
 import './index.css'
 
 interface StocksTableProps {
-    data: Apiresults | undefined
+    data: Apiresults | undefined,
+    handleDetails: (symbol: string) => void
 }
 
-const StocksTable = ({ data }: StocksTableProps) => {
+const StocksTable = ({ data, handleDetails }: StocksTableProps) => {
     const stocks = data?.data || []
   
     return (
@@ -31,7 +32,10 @@ const StocksTable = ({ data }: StocksTableProps) => {
                                 key={index}
                                 className={css`background-color: ${bg}`}
                             >
-                                <td>{stock.symbol}</td>
+                                <td
+                                    className='linked'
+                                    onClick={() => handleDetails(stock.symbol)}
+                                >{stock.symbol}</td>
                                 <td>{stock.name}</td>
                                 <td>{stock.currency}</td>
                                 <td>{stock.type}</td>

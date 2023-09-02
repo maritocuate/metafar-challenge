@@ -3,3 +3,11 @@ thead th {
     background-color: black;
     text-transform: capitalize;
 }
+
+.linked {
+    cursor: pointer;
+    &:hover {
+        color: yellow;
+        font-weight: bold;
+    }
+}

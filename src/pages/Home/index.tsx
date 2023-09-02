@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 import StocksTable from "../../components/StocksTable"
 import { getStocks } from "../../api/fetch"
@@ -7,6 +8,7 @@ import { Apiresults } from "../../types"
 const Home = () => {
   const [loading, setLoading] = useState<boolean>(true)
   const [data, setData] = useState<Apiresults>()
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchData()
@@ -24,6 +26,10 @@ const Home = () => {
     }
   }
 
+  const handleDetails = (symbol: string) => {
+    navigate(`/stock/${symbol}`)
+  }
+
   return (
     <>
         <h1>Metafer Challenge</h1>
@@ -31,7 +37,7 @@ const Home = () => {
         {
           loading
           ? <h2>Loading...</h2> 
-          : <StocksTable data={data} />
+          : <StocksTable data={data} handleDetails={handleDetails} />
         }
     </>
   )
