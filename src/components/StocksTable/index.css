@@ -1,3 +1,7 @@
+table {
+    width: 980px;
+}
+
 thead th {
     padding: 5px 20px;
     background-color: black;
@@ -10,4 +14,25 @@ thead th {
         color: yellow;
         font-weight: bold;
     }
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination a {
+    cursor: pointer;
+    text-decoration: none;
+    color: yellow;
+}
+
+.pagination .active a {
+    font-weight: bold;
 }
