@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 import { IntervalsValues, SeriesResults } from "../../types.d"
 import { getStockSeries } from "../../api/fetch"
 import StockDetails from "../../components/StockDetails"
+import { Button } from "@mui/material"
+import { Home } from "@mui/icons-material"
+
+import "./index.css"
 
 const Details = () => {
   const [loading, setLoading] = useState<boolean>(true)
   const [data, setData] = useState<SeriesResults | []>([])
 
   const { id } = useParams()
+  const navigate = useNavigate()
   
   useEffect(() => {
     fetchData()
@@ -38,11 +43,23 @@ const Details = () => {
         loading
         ? <h2>Loading...</h2> 
         : id ? (
-          <StockDetails
-            symbol={id}
-            data={data as SeriesResults}
-            handleGetStockDetails={handleGetStockDetails}
-          />
+          <>
+            <Button
+              className="back-button"
+              onClick={ () => navigate('/') }
+              variant="contained"
+              size="small"
+              startIcon={<Home />}
+              color="secondary"
+            >
+              Volver
+            </Button>
+            <StockDetails
+              symbol={id}
+              data={data as SeriesResults}
+              handleGetStockDetails={handleGetStockDetails}
+            />
+          </>
         ) : (
           <p>No se ha especificado un símbolo.</p>
         )
