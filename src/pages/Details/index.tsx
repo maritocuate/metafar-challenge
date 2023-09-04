@@ -1,27 +1,33 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 
-import { Apiresults } from "../../types"
-import { getStockDetails } from "../../api/fetch"
+import { IntervalsValues, SeriesResults } from "../../types.d"
+import { getStockSeries } from "../../api/fetch"
 import StockDetails from "../../components/StockDetails"
 
 const Details = () => {
   const [loading, setLoading] = useState<boolean>(true)
-  const [data, setData] = useState<Apiresults>()
+  const [data, setData] = useState<SeriesResults | []>([])
 
   const { id } = useParams()
   
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [id])
 
   const fetchData = async () => {
+    handleGetStockDetails((id as string), IntervalsValues.ONE)
+  }
+
+  const handleGetStockDetails = async (symbol: string, interval: IntervalsValues) => {
     setLoading(true)
 
     try {
-      const data = await getStockDetails(id)
-      setData(data)
-      setLoading(false)
+      if(id) {
+        const data = await getStockSeries(symbol, interval)
+        setData(data)
+        setLoading(false)
+      }
     } catch (err) {
       console.error(err)
     }
@@ -32,8 +38,14 @@ const Details = () => {
       {
         loading
         ? <h2>Loading...</h2> 
-        : (
-          <StockDetails symbol={id} data={data} />
+        : id ? (
+          <StockDetails
+            symbol={id}
+            data={data as SeriesResults}
+            handleGetStockDetails={handleGetStockDetails}
+          />
+        ) : (
+          <p>No se ha especificado un símbolo.</p>
         )
       }
     </>

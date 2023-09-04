@@ -1,3 +1,4 @@
+import { useState } from "react"
 import {
     Autocomplete,
     Button, 
@@ -8,31 +9,53 @@ import {
     TextField, 
     Typography 
 } from "@mui/material"
-
-import { Apiresults } from "../../types"
-
-import './index.css'
 import { HighchartsReact } from "highcharts-react-official"
 import Highcharts from "highcharts"
 
+import { IntervalsValues, SeriesResults } from "../../types.d"
+
+import './index.css'
+
 interface StockDetailsProps {
     symbol: string
-    data: Apiresults | undefined
+    data: SeriesResults | undefined
+    handleGetStockDetails: (symbol: string, interval: IntervalsValues) => void
 }
 
-const StockDetails = ({ symbol, data }: StockDetailsProps) => {
-    const details = data?.data || []
-    const options = ['1min', '5min', '15min']
+const StockDetails = ({ symbol, data, handleGetStockDetails }: StockDetailsProps) => {
+    const [currentInterval, setCurrentInterval] = useState<IntervalsValues>(IntervalsValues.ONE)
+
+    const { ONE, FIVE, FIFTEEN } = IntervalsValues
+    const options = [ONE, FIVE, FIFTEEN]
+
     const chartsOptions = {
         title: {
             text: symbol,
         },
+        xAxis: {
+            type: 'datetime',
+            title: {
+              text: 'Intervalo de Tiempo',
+            },
+        },
+        yAxis: {
+            title: {
+              text: 'Cotización',
+            },
+        },
         series: [
             {
-                name: 'profit',
-                data: [100, 200, 30, 40, 50, 60, 70, 80, 90, 100]
+                name: 'Intervalo',
+                data: data?.values.map((item) => [
+                    new Date(item.datetime).getTime(),
+                    parseFloat(item.close),
+                ]),
             }
         ]
+    }
+
+    const handleSubmit = () => {
+        handleGetStockDetails(symbol, currentInterval)
     }
   
     return (
@@ -73,14 +96,18 @@ const StockDetails = ({ symbol, data }: StockDetailsProps) => {
                     <Autocomplete
                         disablePortal
                         id="combo-interval"
+                        value={currentInterval}
                         options={options}
-                        sx={{ width: 300 }}
+                        sx={{ width: 150 }}
+                        onChange={(_event: unknown, newValue: string | null) => {
+                            setCurrentInterval(newValue as IntervalsValues)
+                        }}
                         renderInput={(params) => <TextField {...params} label="Intervalo" />}
                     />
                 </div>
 
                 <div className="controls">
-                    <Button variant="contained" onClick={() => console.log('ok')}>
+                    <Button variant="contained" onClick={() => handleSubmit()}>
                         Graficar
                     </Button>
                 </div>
