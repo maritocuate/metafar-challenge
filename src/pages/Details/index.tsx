@@ -16,12 +16,11 @@ const Details = () => {
   }, [id])
 
   const fetchData = async () => {
+    setLoading(true)
     handleGetStockDetails((id as string), IntervalsValues.ONE)
   }
 
   const handleGetStockDetails = async (symbol: string, interval: IntervalsValues) => {
-    setLoading(true)
-
     try {
       if(id) {
         const data = await getStockSeries(symbol, interval)
