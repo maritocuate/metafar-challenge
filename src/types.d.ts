@@ -16,6 +16,7 @@ export interface SeriesResults {
     meta:   Meta;
     values: Value[];
     status: string;
+    message?: string;
 }
 
 export interface Meta {

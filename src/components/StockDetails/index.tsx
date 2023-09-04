@@ -11,6 +11,7 @@ import {
 } from "@mui/material"
 import { HighchartsReact } from "highcharts-react-official"
 import Highcharts from "highcharts"
+import { toast } from "react-toastify"
 
 import { IntervalsValues, SeriesResults } from "../../types.d"
 
@@ -24,6 +25,11 @@ interface StockDetailsProps {
 
 const StockDetails = ({ symbol, data, handleGetStockDetails }: StockDetailsProps) => {
     const [currentInterval, setCurrentInterval] = useState<IntervalsValues>(IntervalsValues.ONE)
+    
+    if(data?.status === 'error') {
+        toast.error(data.message)
+        return
+    }
 
     const { ONE, FIVE, FIFTEEN } = IntervalsValues
     const options = [ONE, FIVE, FIFTEEN]
@@ -42,6 +48,9 @@ const StockDetails = ({ symbol, data, handleGetStockDetails }: StockDetailsProps
             title: {
               text: 'Cotización',
             },
+        },
+        accessibility: {
+            enabled: false
         },
         series: [
             {
