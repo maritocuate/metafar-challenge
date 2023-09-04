@@ -81,21 +81,25 @@ const StockDetails = ({ symbol, data, handleGetStockDetails }: StockDetailsProps
                         <FormControlLabel value="realtime" control={<Radio />} label="Tiempo Real" />
 
                         <div className="historical-field">
-                            <FormControlLabel value="historical" control={<Radio />} label="Historico" />
+                            <FormControlLabel disabled value="historical" control={<Radio />} label="Historico" />
 
                             <Autocomplete
+                                disabled
                                 disablePortal
                                 id="combo-from"
                                 options={options}
                                 sx={{ width: 150 }}
                                 renderInput={(params) => <TextField {...params} label="Fecha desde" />}
+                                size="small"
                             />
                             <Autocomplete
+                                disabled
                                 disablePortal
                                 id="combo-until"
                                 options={options}
                                 sx={{ width: 150 }}
                                 renderInput={(params) => <TextField {...params} label="Fecha hasta" />}
+                                size="small"
                             />
                         </div>
                     </RadioGroup>
@@ -112,6 +116,7 @@ const StockDetails = ({ symbol, data, handleGetStockDetails }: StockDetailsProps
                             setCurrentInterval(newValue as IntervalsValues)
                         }}
                         renderInput={(params) => <TextField {...params} label="Intervalo" />}
+                        disableClearable
                     />
                 </div>
 
