@@ -1,0 +1,26 @@
+.details-container {
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    text-align: left;
+    color: grey;
+}
+
+.form {
+    padding: 20px 40px;
+}
+
+.historical-field {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}   
+
+.controls {
+    display: flex;
+    justify-content: center;
+}
+
+.charts-container {
+    margin-top: 50px;
+}
